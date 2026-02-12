@@ -369,7 +369,7 @@ export default function AsistenteIAPage() {
     recognition.onend = () => {
       const text = finalTranscript.trim()
       if (text && voiceModeRef.current) {
-        prevMessagesLenRef.current = messages.length + 2 // will increase by user+assistant
+        prevMessagesLenRef.current = messages.length + 1 // after user+assistant, length will exceed this
         sendMessage({ text })
         setOrbState('processing')
       } else {
