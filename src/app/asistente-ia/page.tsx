@@ -196,7 +196,7 @@ function VoiceOrb({
 
       {/* Bottom hint */}
       <p className="absolute bottom-6 text-[11px] text-white/30">
-        Asistente SST · Gemini 3 Pro · Voz neural
+        Asistente SST · Ccanto Group · Voz neural
       </p>
     </div>
   )
