@@ -287,6 +287,10 @@ export default function AsistenteIAPage() {
       .replace(/\n/g, '. ')
       .replace(/\.\s*\.\s*/g, '. ')
       .replace(/\s{2,}/g, ' ')
+      // Remove N°/Nº symbols (reads as "ene grado")
+      .replace(/N[º°]\s*/g, '')
+      // Remove degree symbol and other problematic chars
+      .replace(/[°º§©®™→←↑↓]/g, '')
       // Expand abbreviations for natural speech
       .replace(/\bCcanto\s+Group\b/gi, 'Canto Grup')
       .replace(/\bSSOMA\b/g, 'Seguridad, Salud Ocupacional y Medio Ambiente')
@@ -298,10 +302,12 @@ export default function AsistenteIAPage() {
       .replace(/\bEPP\b/g, 'Equipo de Protección Personal')
       .replace(/\bSUNAFIL\b/g, 'Sunafil')
       .replace(/\bDS\s+(\d+)/g, 'Decreto Supremo $1')
-      .replace(/\bNº\b/g, 'número')
       .replace(/\bArt\.\s*/g, 'Artículo ')
       .replace(/\bRLS\b/g, 'Row Level Security')
       .replace(/\betc\./g, 'etcétera')
+      .replace(/\bi\.e\./g, 'es decir')
+      .replace(/\bp\.ej\./g, 'por ejemplo')
+      .replace(/\bEj\./g, 'Ejemplo')
       .trim()
       .slice(0, 2000)
 
