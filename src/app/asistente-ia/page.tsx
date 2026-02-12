@@ -196,7 +196,7 @@ function VoiceOrb({
 
       {/* Bottom hint */}
       <p className="absolute bottom-6 text-[11px] text-white/30">
-        Asistente SST · Ccanto Group · Voz neural
+        Asistente de Seguridad · Ccanto Group
       </p>
     </div>
   )
@@ -272,8 +272,22 @@ export default function AsistenteIAPage() {
       .replace(/^\d+\.\s/gm, '')
       .replace(/\n{2,}/g, '. ')
       .replace(/\n/g, '. ')
+      // Expand abbreviations for natural speech
+      .replace(/\bCcanto\s+Group\b/gi, 'Canto Grup')
+      .replace(/\bSST\b/g, 'Seguridad y Salud en el Trabajo')
+      .replace(/\bSSO\b/g, 'Seguridad y Salud Ocupacional')
+      .replace(/\bSSOMA\b/g, 'Seguridad, Salud Ocupacional y Medio Ambiente')
+      .replace(/\bIPERC\b/g, 'Identificación de Peligros y Evaluación de Riesgos')
+      .replace(/\bATS\b/g, 'Análisis de Trabajo Seguro')
+      .replace(/\bPETAR\b/g, 'Permiso Escrito para Trabajos de Alto Riesgo')
+      .replace(/\bEPP\b/g, 'Equipo de Protección Personal')
+      .replace(/\bSUNAFIL\b/g, 'Sunafil')
+      .replace(/\bDS\s+(\d+)/g, 'Decreto Supremo $1')
+      .replace(/\bRLS\b/g, 'Row Level Security')
+      .replace(/\bNº\b/g, 'número')
+      .replace(/\bArt\.\s*/g, 'Artículo ')
       .trim()
-      .slice(0, 1500)
+      .slice(0, 2000)
 
     if (!cleanText) {
       setOrbState('idle')
