@@ -258,29 +258,48 @@ export default function AsistenteIAPage() {
     setLastResponse(text)
     setOrbState('speaking')
 
-    // Auto-play TTS
-    ;(async () => {
-      try {
-        const res = await fetch('/api/tts', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text }),
-        })
-        if (!res.ok) throw new Error('TTS failed')
-        const blob = await res.blob()
-        const url = URL.createObjectURL(blob)
+    // Auto-play TTS using browser speechSynthesis (instant, no API call)
+    const synth = window.speechSynthesis
+    synth.cancel()
 
-        const audio = new Audio(url)
-        audioRef.current = audio
-        audio.onended = () => {
-          audioRef.current = null
-          if (voiceModeRef.current) setOrbState('idle')
-        }
-        audio.play()
-      } catch {
-        if (voiceModeRef.current) setOrbState('idle')
-      }
-    })()
+    const cleanText = text
+      .replace(/^#{1,3}\s/gm, '')
+      .replace(/\*\*(.+?)\*\*/g, '$1')
+      .replace(/`([^`]+)`/g, '$1')
+      .replace(/```[\s\S]*?```/g, '')
+      .replace(/\|[^|]*\|/g, '')
+      .replace(/^[-•]\s/gm, '')
+      .replace(/^\d+\.\s/gm, '')
+      .replace(/\n{2,}/g, '. ')
+      .replace(/\n/g, '. ')
+      .trim()
+      .slice(0, 1500)
+
+    if (!cleanText) {
+      setOrbState('idle')
+      return
+    }
+
+    const utterance = new SpeechSynthesisUtterance(cleanText)
+    utterance.lang = 'es-PE'
+    utterance.rate = 1.05
+    utterance.pitch = 1.0
+
+    // Try to find a Spanish voice
+    const voices = synth.getVoices()
+    const esVoice = voices.find(v => v.lang.startsWith('es-PE'))
+      || voices.find(v => v.lang.startsWith('es-MX'))
+      || voices.find(v => v.lang.startsWith('es'))
+    if (esVoice) utterance.voice = esVoice
+
+    utterance.onend = () => {
+      if (voiceModeRef.current) setOrbState('idle')
+    }
+    utterance.onerror = () => {
+      if (voiceModeRef.current) setOrbState('idle')
+    }
+
+    synth.speak(utterance)
   }, [messages, status])
 
   // Voice mode: track when AI is processing
@@ -306,6 +325,7 @@ export default function AsistenteIAPage() {
       // Stop current audio
       audioRef.current?.pause()
       audioRef.current = null
+      window.speechSynthesis?.cancel()
       setOrbState('idle')
       return
     }
@@ -384,6 +404,7 @@ export default function AsistenteIAPage() {
     recognitionRef.current?.stop()
     audioRef.current?.pause()
     audioRef.current = null
+    window.speechSynthesis?.cancel()
     setVoiceMode(false)
     setOrbState('idle')
     setVoiceTranscript('')
