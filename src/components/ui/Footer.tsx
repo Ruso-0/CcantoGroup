@@ -34,7 +34,7 @@ const LEGAL = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/[0.06] bg-[#04060a] text-white">
+    <footer className="border-t border-gray-200 bg-gray-50">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
@@ -42,13 +42,13 @@ export default function Footer() {
             <div className="flex items-center gap-2">
               <ShieldCheck className="h-7 w-7 text-neon-blue" />
               <div className="flex flex-col">
-                <span className="text-lg font-bold">Ccanto Group</span>
-                <span className="text-[10px] tracking-widest text-text-secondary/40">
+                <span className="text-lg font-bold text-gray-900">Ccanto Group</span>
+                <span className="text-[10px] tracking-widest text-gray-400">
                   Peru · Arequipa
                 </span>
               </div>
             </div>
-            <p className="mt-3 max-w-xs text-sm leading-relaxed text-text-secondary/70">
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-gray-500">
               Capacitacion asincrona en seguridad y salud en el trabajo para
               mineria, construccion e industria. Certificados verificables.
             </p>
@@ -60,7 +60,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-text-secondary transition-all hover:bg-white/10 hover:text-white"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 text-gray-400 transition-all hover:bg-sky-50 hover:text-sky-600"
                 >
                   <social.icon className="h-4 w-4" />
                 </a>
@@ -70,7 +70,7 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-neon-blue">
+            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-sky-600">
               Plataforma
             </h4>
             <ul className="space-y-2.5 text-sm">
@@ -78,7 +78,7 @@ export default function Footer() {
                 <li key={s.label}>
                   <Link
                     href={s.href}
-                    className="text-text-secondary/70 transition-colors hover:text-white"
+                    className="text-gray-500 transition-colors hover:text-gray-900"
                   >
                     {s.label}
                   </Link>
@@ -89,34 +89,34 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-neon-blue">
+            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-sky-600">
               Contacto
             </h4>
-            <ul className="space-y-3 text-sm text-text-secondary/70">
+            <ul className="space-y-3 text-sm text-gray-500">
               <li className="flex items-start gap-2.5">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-neon-blue/50" />
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-sky-500/60" />
                 <span>Arequipa, Peru</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone className="h-4 w-4 shrink-0 text-neon-blue/50" />
+                <Phone className="h-4 w-4 shrink-0 text-sky-500/60" />
                 <a
                   href="tel:+51988227200"
-                  className="transition-colors hover:text-white"
+                  className="transition-colors hover:text-gray-900"
                 >
                   +51 988 227 200
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
-                <Mail className="h-4 w-4 shrink-0 text-neon-blue/50" />
+                <Mail className="h-4 w-4 shrink-0 text-sky-500/60" />
                 <a
                   href="mailto:info@ccantogroup.com"
-                  className="transition-colors hover:text-white"
+                  className="transition-colors hover:text-gray-900"
                 >
                   info@ccantogroup.com
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
-                <Clock className="h-4 w-4 shrink-0 text-neon-blue/50" />
+                <Clock className="h-4 w-4 shrink-0 text-sky-500/60" />
                 <span>Lun–Vie: 8:00 – 17:30</span>
               </li>
             </ul>
@@ -124,7 +124,7 @@ export default function Footer() {
 
           {/* Legal */}
           <div>
-            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-neon-blue">
+            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-sky-600">
               Legal
             </h4>
             <ul className="space-y-2.5 text-sm">
@@ -132,7 +132,7 @@ export default function Footer() {
                 <li key={l.label}>
                   <Link
                     href={l.href}
-                    className="text-text-secondary/70 transition-colors hover:text-white"
+                    className="text-gray-500 transition-colors hover:text-gray-900"
                   >
                     {l.label}
                   </Link>
@@ -142,7 +142,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-white/[0.06] pt-6 text-center text-xs text-text-secondary/40">
+        <div className="mt-12 border-t border-gray-200 pt-6 text-center text-xs text-gray-400">
           &copy; 2009-{new Date().getFullYear()} Ccanto Group. Todos los
           derechos reservados.
         </div>

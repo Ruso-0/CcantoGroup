@@ -47,16 +47,16 @@ function Dropdown({ items, open }: { items: DropdownItem[]; open: boolean }) {
         open ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-1 opacity-0'
       }`}
     >
-      <div className="min-w-[280px] rounded-xl border border-white/[0.06] bg-[#0c1120]/95 p-1.5 shadow-2xl shadow-black/50 backdrop-blur-xl">
+      <div className="min-w-[280px] rounded-xl border border-gray-200 bg-white p-1.5 shadow-lg shadow-gray-200/50">
         {items.map((item) => (
           <Link
             key={item.label}
             href={item.href}
-            className="group block rounded-lg px-3 py-2.5 transition-colors hover:bg-white/[0.05]"
+            className="group block rounded-lg px-3 py-2.5 transition-colors hover:bg-gray-50"
           >
-            <span className="text-[13px] font-medium text-white/90">{item.label}</span>
+            <span className="text-[13px] font-medium text-gray-700">{item.label}</span>
             {item.desc && (
-              <span className="mt-0.5 block text-[11px] text-text-secondary/50">{item.desc}</span>
+              <span className="mt-0.5 block text-[11px] text-gray-400">{item.desc}</span>
             )}
           </Link>
         ))}
@@ -90,7 +90,7 @@ export default function Navbar() {
     <header
       className={`fixed top-0 z-50 w-full transition-all duration-300 ${
         scrolled
-          ? 'border-b border-white/[0.06] bg-[#0a0f1a]/90 backdrop-blur-xl'
+          ? 'border-b border-gray-200/60 bg-white/90 backdrop-blur-xl'
           : 'bg-transparent'
       }`}
     >
@@ -99,10 +99,10 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2">
           <ShieldCheck className="h-6 w-6 text-neon-blue" />
           <div className="flex flex-col">
-            <span className="text-[15px] font-extrabold leading-tight tracking-wide text-white">
+            <span className="text-[15px] font-extrabold leading-tight tracking-wide text-gray-900">
               Ccanto Group
             </span>
-            <span className="text-[10px] leading-tight tracking-widest text-text-secondary/40">
+            <span className="text-[10px] leading-tight tracking-widest text-gray-400">
               Peru · Arequipa
             </span>
           </div>
@@ -118,7 +118,7 @@ export default function Navbar() {
                 onMouseEnter={() => handleEnter(link.label)}
                 onMouseLeave={handleLeave}
               >
-                <button className="flex items-center gap-1 px-3.5 py-2 text-[13.5px] text-text-secondary transition-colors hover:text-white">
+                <button className="flex items-center gap-1 px-3.5 py-2 text-[13.5px] text-gray-600 transition-colors hover:text-gray-900">
                   {link.label}
                   <ChevronDown className="h-3 w-3" />
                 </button>
@@ -128,7 +128,7 @@ export default function Navbar() {
               <Link
                 key={link.label}
                 href={link.href!}
-                className="px-3.5 py-2 text-[13.5px] text-text-secondary transition-colors hover:text-white"
+                className="px-3.5 py-2 text-[13.5px] text-gray-600 transition-colors hover:text-gray-900"
               >
                 {link.label}
               </Link>
@@ -140,20 +140,20 @@ export default function Navbar() {
         <div className="hidden items-center gap-2.5 lg:flex">
           <Link
             href="/asistente-ia"
-            className="flex items-center gap-1.5 rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-[7px] text-[13px] font-medium text-white transition-all hover:bg-white/[0.06]"
+            className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-gray-50 px-4 py-[7px] text-[13px] font-medium text-gray-700 transition-all hover:bg-gray-100"
           >
             <Sparkles className="h-3.5 w-3.5" />
             Probar IA
           </Link>
           <a
             href="#contacto"
-            className="rounded-lg border border-neon-blue/30 bg-neon-blue/[0.08] px-4 py-[7px] text-[13px] font-medium text-white transition-all hover:bg-neon-blue/[0.15]"
+            className="rounded-lg bg-sky-500 px-4 py-[7px] text-[13px] font-medium text-white transition-all hover:bg-sky-600"
           >
             Cotizar en 15 min
           </a>
           <Link
             href="/login"
-            className="px-3 py-[7px] text-[13px] text-text-secondary transition-colors hover:text-white"
+            className="px-3 py-[7px] text-[13px] text-gray-500 transition-colors hover:text-gray-900"
           >
             Portal
           </Link>
@@ -162,7 +162,7 @@ export default function Navbar() {
         {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="text-white lg:hidden"
+          className="text-gray-900 lg:hidden"
           aria-label="Toggle menu"
         >
           {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -171,12 +171,12 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="border-b border-white/[0.06] bg-[#0a0f1a]/98 backdrop-blur-xl lg:hidden">
+        <div className="border-b border-gray-200 bg-white/98 backdrop-blur-xl lg:hidden">
           <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
             {NAV_LINKS.map((link) =>
               link.items ? (
                 <div key={link.label} className="py-1">
-                  <p className="px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-text-secondary/40">
+                  <p className="px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-gray-400">
                     {link.label}
                   </p>
                   {link.items.map((item) => (
@@ -184,7 +184,7 @@ export default function Navbar() {
                       key={item.label}
                       href={item.href}
                       onClick={() => setMobileOpen(false)}
-                      className="block rounded-lg px-3 py-2.5 text-sm text-text-secondary transition-colors hover:text-white"
+                      className="block rounded-lg px-3 py-2.5 text-sm text-gray-600 transition-colors hover:text-gray-900"
                     >
                       {item.label}
                     </Link>
@@ -195,18 +195,18 @@ export default function Navbar() {
                   key={link.label}
                   href={link.href!}
                   onClick={() => setMobileOpen(false)}
-                  className="block rounded-lg px-3 py-2.5 text-sm text-text-secondary transition-colors hover:text-white"
+                  className="block rounded-lg px-3 py-2.5 text-sm text-gray-600 transition-colors hover:text-gray-900"
                 >
                   {link.label}
                 </Link>
               )
             )}
-            <div className="mt-3 flex flex-col gap-2.5 border-t border-white/[0.06] pt-4">
+            <div className="mt-3 flex flex-col gap-2.5 border-t border-gray-200 pt-4">
               <div className="flex gap-2.5">
                 <Link
                   href="/asistente-ia"
                   onClick={() => setMobileOpen(false)}
-                  className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-white/[0.12] bg-white/[0.03] py-2.5 text-sm font-medium text-white"
+                  className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-gray-200 bg-gray-50 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-100"
                 >
                   <Sparkles className="h-3.5 w-3.5" />
                   Probar IA
@@ -214,7 +214,7 @@ export default function Navbar() {
                 <a
                   href="#contacto"
                   onClick={() => setMobileOpen(false)}
-                  className="flex-1 rounded-lg border border-neon-blue/30 bg-neon-blue/[0.08] py-2.5 text-center text-sm font-medium text-white"
+                  className="flex-1 rounded-lg bg-sky-500 py-2.5 text-center text-sm font-medium text-white hover:bg-sky-600"
                 >
                   Cotizar en 15 min
                 </a>
@@ -222,7 +222,7 @@ export default function Navbar() {
               <Link
                 href="/login"
                 onClick={() => setMobileOpen(false)}
-                className="rounded-lg py-2 text-center text-sm text-text-secondary transition-colors hover:text-white"
+                className="rounded-lg py-2 text-center text-sm text-gray-500 transition-colors hover:text-gray-900"
               >
                 Portal
               </Link>

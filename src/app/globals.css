@@ -1,30 +1,30 @@
 @import "tailwindcss";
 
 :root {
-  /* Landing — Sci-Fi Dark Neon */
-  --background: #0a0f1a;
-  --background-darker: #05080e;
-  --foreground: #ffffff;
-  --text-secondary: #b0b8c9;
-  --neon-blue: #00d4ff;
-  --neon-cyan: #00f0ff;
-  --neon-orange: #ff6b35;
-  --neon-lime: #84cc16;
+  /* Light theme — White + Celeste */
+  --background: #ffffff;
+  --background-darker: #f8fafc;
+  --foreground: #0f172a;
+  --text-secondary: #64748b;
+  --neon-blue: #0ea5e9;
+  --neon-cyan: #06b6d4;
+  --neon-orange: #f97316;
+  --neon-lime: #16a34a;
   --neon-rose: #f43f5e;
   --neon-violet: #8b5cf6;
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.05);
-  --glass-border-hover: rgba(0, 212, 255, 0.3);
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(0, 0, 0, 0.06);
+  --glass-border-hover: rgba(14, 165, 233, 0.3);
 
-  /* Legacy aliases for auth pages */
-  --primary: #00d4ff;
-  --primary-light: #00f0ff;
-  --primary-dark: #0a0f1a;
-  --accent: #ff6b35;
-  --accent-dark: #e55a2b;
-  --muted: #111827;
-  --muted-foreground: #b0b8c9;
-  --border: rgba(255, 255, 255, 0.1);
+  /* Aliases */
+  --primary: #0ea5e9;
+  --primary-light: #38bdf8;
+  --primary-dark: #0284c7;
+  --accent: #0ea5e9;
+  --accent-dark: #0284c7;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --border: #e2e8f0;
 }
 
 @theme inline {
@@ -41,7 +41,7 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
 
-  /* Neon palette */
+  /* Palette */
   --color-neon-blue: var(--neon-blue);
   --color-neon-cyan: var(--neon-cyan);
   --color-neon-orange: var(--neon-orange);
@@ -53,7 +53,7 @@
   --color-glass-bg: var(--glass-bg);
   --color-glass-border: var(--glass-border);
 
-  /* Dashboard — Deep Space palette */
+  /* Dashboard — Deep Space palette (stays dark) */
   --color-ds-bg: #020617;
   --color-ds-surface: #0f172a;
   --color-ds-panel: #1e293b;
@@ -108,8 +108,8 @@ body {
 }
 
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 15px rgba(0, 212, 255, 0.4); }
-  50% { box-shadow: 0 0 30px rgba(0, 212, 255, 0.7); }
+  0%, 100% { box-shadow: 0 0 15px rgba(14, 165, 233, 0.2); }
+  50% { box-shadow: 0 0 30px rgba(14, 165, 233, 0.4); }
 }
 
 .animate-scroll-logos { animation: scroll-logos 30s linear infinite; }
@@ -120,15 +120,10 @@ body {
 .animate-glow-pulse { animation: glow-pulse 2s infinite; }
 
 .animate-shimmer {
-  background: linear-gradient(90deg, transparent 25%, rgba(0, 212, 255, 0.06) 50%, transparent 75%);
+  background: linear-gradient(90deg, transparent 25%, rgba(14, 165, 233, 0.06) 50%, transparent 75%);
   background-size: 200% 100%;
   animation: shimmer 2s ease-in-out infinite;
 }
-
-/* --- Neon text glow --- */
-.neon-text-blue { color: var(--neon-blue); text-shadow: 0 0 10px rgba(0, 212, 255, 0.5); }
-.neon-text-cyan { color: var(--neon-cyan); text-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
-.neon-text-orange { color: var(--neon-orange); text-shadow: 0 0 10px rgba(255, 107, 53, 0.5); }
 
 /* --- Glassmorphism base --- */
 .glass {
@@ -139,19 +134,19 @@ body {
   border-radius: 20px;
 }
 .glass:hover {
-  box-shadow: 0 10px 30px -10px rgba(0, 212, 255, 0.2);
+  box-shadow: 0 10px 30px -10px rgba(14, 165, 233, 0.15);
   border-color: var(--glass-border-hover);
 }
 
 /* --- Dot grid pattern background --- */
 .bg-dots {
-  background-image: radial-gradient(rgba(0, 212, 255, 0.08) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(14, 165, 233, 0.07) 1px, transparent 1px);
   background-size: 30px 30px;
 }
 
 /* --- Gradient text helper --- */
 .gradient-text {
-  background: linear-gradient(to right, #fff, var(--neon-blue));
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

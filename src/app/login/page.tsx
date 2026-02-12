@@ -81,17 +81,17 @@ function LoginForm() {
   }
 
   return (
-    <div className="relative min-h-screen bg-background">
+    <div className="relative min-h-screen bg-white">
       {/* ── Mini navbar ── */}
-      <nav className="fixed top-0 z-50 w-full bg-background/80 backdrop-blur-xl">
+      <nav className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur-xl border-b border-gray-100">
         <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex items-center gap-2">
-            <ShieldCheck className="h-6 w-6 text-neon-blue" />
+            <ShieldCheck className="h-6 w-6 text-sky-500" />
             <div className="flex flex-col">
-              <span className="text-[15px] font-extrabold leading-tight tracking-wide text-white">
+              <span className="text-[15px] font-extrabold leading-tight tracking-wide text-gray-900">
                 Ccanto Group
               </span>
-              <span className="text-[10px] leading-tight tracking-widest text-text-secondary/40">
+              <span className="text-[10px] leading-tight tracking-widest text-gray-400">
                 Peru · Arequipa
               </span>
             </div>
@@ -99,13 +99,13 @@ function LoginForm() {
           <div className="flex items-center gap-4">
             <Link
               href="/cursos"
-              className="rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-[7px] text-[13px] font-medium text-white transition-all hover:bg-white/[0.06]"
+              className="rounded-lg border border-gray-200 bg-gray-50 px-4 py-[7px] text-[13px] font-medium text-gray-700 transition-all hover:bg-gray-100"
             >
               Ver catalogo
             </Link>
             <a
               href="/#contacto"
-              className="hidden text-[13px] text-text-secondary transition-colors hover:text-white sm:block"
+              className="hidden text-[13px] text-gray-500 transition-colors hover:text-gray-900 sm:block"
             >
               Contactar
             </a>
@@ -119,26 +119,26 @@ function LoginForm() {
         <div className="flex flex-col items-center justify-center pb-12 pt-24 text-center lg:items-start lg:text-left">
           <div className="w-full max-w-md">
             {/* Headline */}
-            <h1 className="text-[2.5rem] font-semibold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-[3.2rem]">
+            <h1 className="text-[2.5rem] font-semibold leading-[1.1] tracking-tight text-gray-900 sm:text-5xl lg:text-[3.2rem]">
               Seguridad laboral
               <br />
               para quienes
               <br />
               protegen vidas
             </h1>
-            <p className="mt-4 text-[15px] leading-relaxed text-text-secondary">
+            <p className="mt-4 text-[15px] leading-relaxed text-gray-500">
               Accede a cursos asincronos de SST con evaluacion real y certificados
               verificables. Desde Arequipa, para la industria del Peru.
             </p>
 
             {/* ── Login card ── */}
-            <div className="mt-10 w-full rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
+            <div className="mt-10 w-full rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
               {step === 'email' ? (
                 <>
                   {/* Google */}
                   <button
                     onClick={handleGoogle}
-                    className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-white/[0.08] bg-white/[0.04] py-3 text-[13.5px] font-medium text-white transition-all hover:bg-white/[0.07] focus:outline-none focus:ring-2 focus:ring-white/20"
+                    className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-gray-200 bg-gray-50 py-3 text-[13.5px] font-medium text-gray-700 transition-all hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-sky-200"
                   >
                     <GoogleLogo />
                     Continuar con Google
@@ -146,9 +146,9 @@ function LoginForm() {
 
                   {/* Divider */}
                   <div className="my-5 flex items-center gap-3">
-                    <span className="flex-1 border-t border-white/[0.06]" />
-                    <span className="text-[12px] text-text-secondary/40">o</span>
-                    <span className="flex-1 border-t border-white/[0.06]" />
+                    <span className="flex-1 border-t border-gray-200" />
+                    <span className="text-[12px] text-gray-400">o</span>
+                    <span className="flex-1 border-t border-gray-200" />
                   </div>
 
                   {/* Email */}
@@ -163,24 +163,24 @@ function LoginForm() {
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Ingresa tu correo electronico"
                       required
-                      className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-[13.5px] text-white placeholder:text-text-secondary/35 outline-none transition-all focus:border-white/[0.15] focus:ring-2 focus:ring-white/10"
+                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-[13.5px] text-gray-900 placeholder:text-gray-400 outline-none transition-all focus:border-sky-300 focus:ring-2 focus:ring-sky-100"
                     />
                     <button
                       type="submit"
-                      className="w-full rounded-xl border border-white/[0.08] bg-white/[0.04] py-3 text-[13.5px] font-medium text-white transition-all hover:bg-white/[0.07] focus:outline-none focus:ring-2 focus:ring-white/20"
+                      className="w-full rounded-xl bg-sky-500 py-3 text-[13.5px] font-medium text-white transition-all hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-200"
                     >
                       Continuar con correo electronico
                     </button>
                   </form>
 
                   {/* Terms */}
-                  <p className="mt-5 text-[11px] leading-relaxed text-text-secondary/40">
+                  <p className="mt-5 text-[11px] leading-relaxed text-gray-400">
                     Al continuar, aceptas los{' '}
-                    <Link href="#" className="underline underline-offset-2 hover:text-text-secondary/60">
+                    <Link href="#" className="underline underline-offset-2 hover:text-gray-600">
                       Terminos de Servicio
                     </Link>{' '}
                     y la{' '}
-                    <Link href="#" className="underline underline-offset-2 hover:text-text-secondary/60">
+                    <Link href="#" className="underline underline-offset-2 hover:text-gray-600">
                       Politica de Privacidad
                     </Link>{' '}
                     de Ccanto Group.
@@ -188,10 +188,10 @@ function LoginForm() {
                 </>
               ) : (
                 <>
-                  <h2 className="text-[18px] font-semibold text-white">
+                  <h2 className="text-[18px] font-semibold text-gray-900">
                     Ingresa tu contrasena
                   </h2>
-                  <p className="mt-1 text-[13px] text-text-secondary/60">{email}</p>
+                  <p className="mt-1 text-[13px] text-gray-500">{email}</p>
 
                   <form onSubmit={handlePasswordSubmit} className="mt-6 space-y-3">
                     <label htmlFor="login-password" className="sr-only">
@@ -205,11 +205,11 @@ function LoginForm() {
                       placeholder="Contrasena"
                       required
                       autoFocus
-                      className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-[13.5px] text-white placeholder:text-text-secondary/35 outline-none transition-all focus:border-white/[0.15] focus:ring-2 focus:ring-white/10"
+                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-[13.5px] text-gray-900 placeholder:text-gray-400 outline-none transition-all focus:border-sky-300 focus:ring-2 focus:ring-sky-100"
                     />
 
                     {error && (
-                      <div role="alert" className="flex items-start gap-2 rounded-lg border border-red-500/20 bg-red-500/5 px-3 py-2 text-[13px] text-red-400">
+                      <div role="alert" className="flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-[13px] text-red-600">
                         <AlertCircle className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" />
                         <p>{error}</p>
                       </div>
@@ -218,10 +218,10 @@ function LoginForm() {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="w-full rounded-xl border border-white/[0.08] bg-white/[0.04] py-3 text-[13.5px] font-medium text-white transition-all hover:bg-white/[0.07] focus:outline-none focus:ring-2 focus:ring-white/20 disabled:opacity-50"
+                      className="w-full rounded-xl bg-sky-500 py-3 text-[13.5px] font-medium text-white transition-all hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-200 disabled:opacity-50"
                     >
                       {loading ? (
-                        <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white/20 border-t-white" />
+                        <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
                       ) : (
                         'Iniciar sesion'
                       )}
@@ -230,7 +230,7 @@ function LoginForm() {
 
                   <button
                     onClick={() => { setStep('email'); setPassword(''); setError(null) }}
-                    className="mt-4 w-full text-center text-[13px] text-text-secondary/50 transition-colors hover:text-white"
+                    className="mt-4 w-full text-center text-[13px] text-gray-400 transition-colors hover:text-gray-700"
                   >
                     Usar otra cuenta
                   </button>
@@ -239,7 +239,7 @@ function LoginForm() {
             </div>
 
             {/* Microcopy */}
-            <p className="mt-5 text-center text-[12px] text-text-secondary/40 lg:text-left">
+            <p className="mt-5 text-center text-[12px] text-gray-400 lg:text-left">
               A tu ritmo · Evaluacion incluida · Certificado verificable
             </p>
 
@@ -249,7 +249,7 @@ function LoginForm() {
                 <Link
                   key={chip}
                   href={`/cursos?q=${encodeURIComponent(chip)}`}
-                  className="rounded-full border border-white/[0.06] bg-white/[0.02] px-3.5 py-1.5 text-[12px] text-text-secondary/60 transition-all hover:border-white/[0.12] hover:text-white"
+                  className="rounded-full border border-gray-200 bg-gray-50 px-3.5 py-1.5 text-[12px] text-gray-500 transition-all hover:border-sky-200 hover:bg-sky-50 hover:text-sky-600"
                 >
                   {chip}
                 </Link>
@@ -258,11 +258,11 @@ function LoginForm() {
 
             {/* Sign up + back */}
             <div className="mt-8 space-y-2 text-center lg:text-left">
-              <p className="text-[13px] text-text-secondary/50">
+              <p className="text-[13px] text-gray-500">
                 No tienes cuenta?{' '}
                 <Link
                   href="/registro"
-                  className="text-white underline underline-offset-2 hover:text-white/80"
+                  className="font-semibold text-sky-500 underline underline-offset-2 hover:text-sky-600"
                 >
                   Registrate
                 </Link>
@@ -273,7 +273,7 @@ function LoginForm() {
 
         {/* RIGHT: video panel */}
         <div className="relative hidden items-start pt-16 lg:flex">
-          <div className="relative h-[calc(100vh-6rem)] w-full overflow-hidden rounded-2xl shadow-2xl shadow-black/30">
+          <div className="relative h-[calc(100vh-6rem)] w-full overflow-hidden rounded-2xl shadow-xl shadow-gray-200/50">
             {/* Video */}
             <video
               ref={videoRef}
@@ -290,16 +290,15 @@ function LoginForm() {
 
             {/* Fallback when video hasn't loaded */}
             {!videoLoaded && (
-              <div className="absolute inset-0 bg-gradient-to-br from-[#0d1117] to-[#0a1628]">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,212,255,0.06)_0%,_transparent_70%)]" />
+              <div className="absolute inset-0 bg-gradient-to-br from-sky-50 to-sky-100">
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <ShieldCheck className="h-20 w-20 text-white/[0.04]" />
+                  <ShieldCheck className="h-20 w-20 text-sky-200" />
                 </div>
               </div>
             )}
 
             {/* Subtle overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-background/20" />
+            <div className="absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-white/10" />
 
             {/* Mute toggle */}
             {videoLoaded && (
@@ -309,7 +308,7 @@ function LoginForm() {
                   if (videoRef.current) videoRef.current.muted = !muted
                 }}
                 aria-label={muted ? 'Activar sonido' : 'Silenciar'}
-                className="absolute bottom-4 right-4 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white/60 backdrop-blur-sm transition-all hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+                className="absolute bottom-4 right-4 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-gray-600 backdrop-blur-sm transition-all hover:bg-white hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-200"
               >
                 {muted ? (
                   <VolumeX className="h-3.5 w-3.5" />
