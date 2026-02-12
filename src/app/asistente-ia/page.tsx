@@ -19,7 +19,16 @@ import {
   MicOff,
   Volume2,
   Square,
+  Paperclip,
+  X,
+  FileText,
+  Image as ImageIcon,
+  Film,
 } from 'lucide-react'
+
+const MAX_FILE_SIZE = 4 * 1024 * 1024 // 4MB (Vercel free tier limit)
+const MAX_FILES = 5
+const ACCEPTED_TYPES = 'image/jpeg,image/png,image/webp,image/gif,application/pdf,video/mp4,video/webm,text/plain,text/csv'
 
 const SUGGESTIONS = [
   {
@@ -44,15 +53,30 @@ const SUGGESTIONS = [
   },
 ]
 
+function createFileList(files: File[]): FileList {
+  const dt = new DataTransfer()
+  files.forEach(f => dt.items.add(f))
+  return dt.files
+}
+
+function FilePreviewIcon({ mediaType }: { mediaType: string }) {
+  if (mediaType.startsWith('image/')) return <ImageIcon className="h-4 w-4 flex-shrink-0 text-sky-500" />
+  if (mediaType.startsWith('video/')) return <Film className="h-4 w-4 flex-shrink-0 text-purple-500" />
+  if (mediaType === 'application/pdf') return <FileText className="h-4 w-4 flex-shrink-0 text-red-500" />
+  return <FileText className="h-4 w-4 flex-shrink-0 text-gray-500" />
+}
+
 export default function AsistenteIAPage() {
   const { messages, sendMessage, status, setMessages } = useChat()
 
   const [input, setInput] = useState('')
+  const [attachedFiles, setAttachedFiles] = useState<File[]>([])
   const [isListening, setIsListening] = useState(false)
   const [speakingId, setSpeakingId] = useState<string | null>(null)
   const [isLoadingAudio, setIsLoadingAudio] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const recognitionRef = useRef<SpeechRecognition | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const audioCacheRef = useRef<Map<string, string>>(new Map())
@@ -74,6 +98,36 @@ export default function AsistenteIAPage() {
       audioCacheRef.current.forEach((url) => URL.revokeObjectURL(url))
     }
   }, [])
+
+  // File handling
+  function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files
+    if (!files) return
+
+    const newFiles: File[] = []
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
+      if (file.size > MAX_FILE_SIZE) {
+        alert(`"${file.name}" supera el limite de 4MB. Elige un archivo mas pequeno.`)
+        continue
+      }
+      if (attachedFiles.length + newFiles.length >= MAX_FILES) {
+        alert(`Maximo ${MAX_FILES} archivos por mensaje.`)
+        break
+      }
+      newFiles.push(file)
+    }
+
+    if (newFiles.length > 0) {
+      setAttachedFiles(prev => [...prev, ...newFiles])
+    }
+    // Reset input so same file can be re-selected
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
+  function removeFile(index: number) {
+    setAttachedFiles(prev => prev.filter((_, i) => i !== index))
+  }
 
   // Speech-to-Text: toggle microphone
   function toggleListening() {
@@ -121,7 +175,6 @@ export default function AsistenteIAPage() {
 
   // Text-to-Speech: Gemini neural voice
   async function toggleSpeak(messageId: string, text: string) {
-    // If already playing this message, stop it
     if (speakingId === messageId) {
       audioRef.current?.pause()
       audioRef.current = null
@@ -129,11 +182,9 @@ export default function AsistenteIAPage() {
       return
     }
 
-    // Stop any current audio
     audioRef.current?.pause()
     audioRef.current = null
 
-    // Check cache first
     const cached = audioCacheRef.current.get(messageId)
     if (cached) {
       const audio = new Audio(cached)
@@ -144,7 +195,6 @@ export default function AsistenteIAPage() {
       return
     }
 
-    // Generate audio via Gemini TTS
     setIsLoadingAudio(true)
     setSpeakingId(messageId)
 
@@ -184,11 +234,18 @@ export default function AsistenteIAPage() {
   }
 
   function handleSend() {
-    if (!input.trim() || isLoading) return
-    const text = input.trim()
+    const hasText = input.trim().length > 0
+    const hasFiles = attachedFiles.length > 0
+    if ((!hasText && !hasFiles) || isLoading) return
+
+    const text = hasText ? input.trim() : 'Analiza este archivo'
+    const files = hasFiles ? createFileList(attachedFiles) : undefined
+
     setInput('')
+    setAttachedFiles([])
     if (inputRef.current) inputRef.current.style.height = 'auto'
-    sendMessage({ text })
+
+    sendMessage({ text, files })
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
@@ -201,6 +258,7 @@ export default function AsistenteIAPage() {
   function handleNewChat() {
     setMessages([])
     setInput('')
+    setAttachedFiles([])
   }
 
   const hasMessages = messages.length > 0
@@ -268,8 +326,8 @@ export default function AsistenteIAPage() {
               y Salud en el Trabajo
             </h1>
             <p className="mt-3 max-w-md text-center text-[14px] leading-relaxed text-gray-500">
-              Genera IPERC, ATS, checklists y mas. Entrenado en normativa peruana:
-              DS 024, Ley 29783 y normas sectoriales.
+              Genera IPERC, ATS, checklists y mas. Sube fotos, PDFs o videos
+              para analisis de seguridad con IA.
             </p>
 
             {/* Suggestion chips */}
@@ -352,12 +410,34 @@ export default function AsistenteIAPage() {
                       </button>
                     </>
                   ) : (
-                    <p className="text-[13.5px] leading-relaxed whitespace-pre-wrap">
+                    <>
+                      {/* File attachments in user messages */}
                       {message.parts
-                        ?.filter((p): p is { type: 'text'; text: string } => p.type === 'text')
-                        .map((p) => p.text)
-                        .join('') ?? ''}
-                    </p>
+                        ?.filter((p): p is { type: 'file'; mediaType: string; url: string; filename?: string } => p.type === 'file')
+                        .map((p, i) => (
+                          <div key={i} className="mb-2">
+                            {p.mediaType.startsWith('image/') ? (
+                              <img
+                                src={p.url}
+                                alt={p.filename ?? 'Imagen adjunta'}
+                                className="max-h-48 rounded-lg"
+                              />
+                            ) : (
+                              <div className="flex items-center gap-2 rounded-lg bg-white/20 px-3 py-2 text-[12px]">
+                                <FilePreviewIcon mediaType={p.mediaType} />
+                                <span className="truncate">{p.filename ?? 'Archivo adjunto'}</span>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      {/* Text content */}
+                      <p className="text-[13.5px] leading-relaxed whitespace-pre-wrap">
+                        {message.parts
+                          ?.filter((p): p is { type: 'text'; text: string } => p.type === 'text')
+                          .map((p) => p.text)
+                          .join('') ?? ''}
+                      </p>
+                    </>
                   )}
                 </div>
               </div>
@@ -378,22 +458,67 @@ export default function AsistenteIAPage() {
         )}
       </div>
 
+      {/* Hidden file input */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        multiple
+        accept={ACCEPTED_TYPES}
+        onChange={handleFileSelect}
+        className="hidden"
+      />
+
       {/* Input area */}
       <div className="flex-shrink-0 border-t border-gray-200 bg-white">
         <div className="mx-auto max-w-3xl px-4 py-4 sm:px-6">
+          {/* File preview */}
+          {attachedFiles.length > 0 && (
+            <div className="mb-2 flex flex-wrap gap-2">
+              {attachedFiles.map((file, index) => (
+                <div
+                  key={`${file.name}-${index}`}
+                  className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-[12px] text-gray-600 shadow-sm"
+                >
+                  <FilePreviewIcon mediaType={file.type} />
+                  <span className="max-w-[120px] truncate">{file.name}</span>
+                  <span className="text-gray-400">
+                    {(file.size / 1024 / 1024).toFixed(1)}MB
+                  </span>
+                  <button
+                    onClick={() => removeFile(index)}
+                    className="ml-1 flex h-4 w-4 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-red-100 hover:text-red-500"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
           <div className="relative">
             <textarea
               ref={inputRef}
               value={input}
               onChange={handleTextareaChange}
               onKeyDown={handleKeyDown}
-              placeholder="Describe lo que necesitas... (Ej: Genera un IPERC para soldadura)"
+              placeholder={attachedFiles.length > 0 ? 'Agrega un mensaje o envia los archivos...' : 'Describe lo que necesitas... (Ej: Genera un IPERC para soldadura)'}
               rows={1}
-              className={`w-full resize-none rounded-xl border bg-gray-50 py-3.5 pl-4 pr-24 text-[13.5px] leading-relaxed text-gray-900 placeholder:text-gray-400 outline-none transition-all focus:border-sky-300 focus:ring-2 focus:ring-sky-100 focus:shadow-sm ${
+              className={`w-full resize-none rounded-xl border bg-gray-50 py-3.5 pl-4 pr-32 text-[13.5px] leading-relaxed text-gray-900 placeholder:text-gray-400 outline-none transition-all focus:border-sky-300 focus:ring-2 focus:ring-sky-100 focus:shadow-sm ${
                 isListening ? 'border-red-300 ring-2 ring-red-100' : 'border-gray-200'
               }`}
             />
             <div className="absolute bottom-2.5 right-2.5 flex items-center gap-1.5">
+              {/* Attach button */}
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isLoading || attachedFiles.length >= MAX_FILES}
+                className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-gray-400 transition-all hover:bg-gray-200 hover:text-gray-600 disabled:opacity-30"
+                title="Adjuntar archivo (imagen, PDF, video)"
+              >
+                <Paperclip className="h-4 w-4" />
+              </button>
+              {/* Mic button */}
               <button
                 type="button"
                 onClick={toggleListening}
@@ -407,10 +532,11 @@ export default function AsistenteIAPage() {
               >
                 {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
               </button>
+              {/* Send button */}
               <button
                 type="button"
                 onClick={handleSend}
-                disabled={!input.trim() || isLoading}
+                disabled={(!input.trim() && attachedFiles.length === 0) || isLoading}
                 className="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-500 text-white transition-all hover:bg-sky-600 disabled:opacity-30 disabled:hover:bg-sky-500"
               >
                 {isLoading ? (
@@ -422,7 +548,7 @@ export default function AsistenteIAPage() {
             </div>
           </div>
           <p className="mt-2 text-center text-[10px] text-gray-400">
-            Asistente IA de Ccanto Group · Los documentos generados son referenciales · Shift+Enter para nueva linea
+            Asistente IA de Ccanto Group · Sube imagenes, PDFs o videos (max 4MB) · Shift+Enter para nueva linea
           </p>
         </div>
       </div>
