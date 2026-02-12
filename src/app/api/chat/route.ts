@@ -48,7 +48,7 @@ export async function POST(req: Request) {
 
     return createUIMessageStreamResponse({
       stream: streamText({
-        model: google('gemini-3.0-pro'),
+        model: google('gemini-3-pro-preview'),
         system: SYSTEM_PROMPT,
         messages: modelMessages,
         maxOutputTokens: 65536,
